@@ -16,8 +16,8 @@ describe('Home page', () => {
 
      const images = screen.getAllByRole("img");
      expect(images).toHaveLength(6);
-     expect(images[0]).toHaveAttribute("src", "/images/AIC2.jpeg");
-     expect(images[1]).toHaveAttribute("alt", "Art Institute of Chicago 2");
+     expect(images[0]).toHaveAttribute("src", "/images/AIC1.jpeg");
+     expect(images[1]).toHaveAttribute("alt", "Art Institute of Chicago 5");
 
      expect(
        screen.getByText(/The art of Art Institute of Chicago/i)
