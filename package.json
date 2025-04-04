@@ -1,0 +1,44 @@
+{
+  "name": "chicago-art",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@tanstack/react-query": "^5.71.5",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@testing-library/dom": "^10.4.0",
+    "@types/jest": "^29.5.14",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.1",
+    "axios-mock-adapter": "^2.1.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "ts-jest": "^29.3.1",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.7.2",
+    "vite": "^6.2.5"
+  },
+  "dependencies": {
+    "@tanstack/react-query-devtools": "^5.71.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.21",
+    "axios": "^1.8.4",
+    "html-react-parser": "^5.2.3",
+    "postcss": "^8.5.3",
+    "react-router-dom": "^7.4.1",
+    "tailwindcss": "^3.0.0",
+    "util": "^0.12.5",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "@testing-library/jest-dom": "^10.4.6",
+    "@testing-library/react": "^0.0.2"
+  }
+}
