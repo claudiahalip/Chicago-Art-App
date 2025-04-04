@@ -38,11 +38,11 @@ export default function ArtDetails() {
         </div>
         <div className="py-1">
           <span className="font-bold">Provenance: </span>
-          {art.provenance_text}
+          {art.provenance_text && ReactHtmlParser(art.provenance_text)}
         </div>
         <div className="py-1">
           <span className="font-bold">Exhibition history:</span>{" "}
-          {art.exhibition_history}
+          {art.exhibition_history && ReactHtmlParser(art.exhibition_history)}
         </div>
       </div>
 
