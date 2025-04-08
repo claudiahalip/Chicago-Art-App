@@ -1,7 +1,7 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { ArtCard } from "../components/ArtCard";
 import { useGetArtCollection } from "../hooks/useGetArtCollection";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function AllArt() {
@@ -9,11 +9,13 @@ export default function AllArt() {
   const initialPage = Number(searchParams.get("page")) || 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
   const { data, error, isLoading } = useGetArtCollection(currentPage);
+  const [highlightedCardId, setHighlightedCardId] = useState<string | null>(
+    null
+  );
 
-    useEffect(() => {
-      setSearchParams({ page: currentPage.toString() });
-    }, [currentPage, setSearchParams]);
-
+  useEffect(() => {
+    setSearchParams({ page: currentPage.toString() });
+  }, [currentPage, setSearchParams]);
 
   const handleNextPage = () => {
     if (data && currentPage < data.pagination.total_pages) {
@@ -29,6 +31,21 @@ export default function AllArt() {
 
   if (error) return <p>Error: {error.message}</p>;
   const dataWithImage = data ? data.data.filter((obj) => obj.thumbnail) : [];
+
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  useEffect(() => {
+    const clickedId = localStorage.getItem("clickedArtId");
+    
+    if (clickedId && cardRefs.current[clickedId]) {
+      cardRefs.current[clickedId].scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+      setHighlightedCardId(clickedId);
+      localStorage.removeItem("clickedArtId");
+    }
+  }, [data]);
 
   return (
     <div className="flex flex-col">
@@ -56,12 +73,32 @@ export default function AllArt() {
                 to={`/all-art/${art.artist_id}?page=${currentPage}`}
                 state={{ art }}
                 className="h-full"
+                onClick={() => {
+                  localStorage.setItem(
+                    "clickedArtId",
+                    `${index}-${art.artist_id}`
+                  );
+                  setHighlightedCardId(`${index}-${art.artist_id}`);
+                }}
               >
-                <ArtCard
-                  imageId={art?.image_id}
-                  thumbnail={art?.thumbnail}
-                  altText={art?.thumbnail?.alt_text}
-                />
+                <div
+                  id={`${index}-${art.artist_id}`}
+                  key={`${index}-${art.artist_id}`}
+                  ref={(el) => {
+                    cardRefs.current[`${index}-${art.artist_id}`] = el;
+                  }}
+                  className={`transition-all duration-300 ${
+                    highlightedCardId === `${index}-${art.artist_id}`
+                      ? "ring-2 ring-red-500 text-red-500 rounded-xl"
+                      : ""
+                  }`}
+                >
+                  <ArtCard
+                    imageId={art?.image_id}
+                    thumbnail={art?.thumbnail}
+                    altText={art?.thumbnail?.alt_text}
+                  />
+                </div>
               </Link>
             );
           })}
